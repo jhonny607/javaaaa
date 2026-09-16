@@ -6,6 +6,30 @@ public class Smartphone {
     private double price;
     private int batteryCapacity;
 
+    private static int smartphoneCounter = 0;
+
+    public Smartphone() {
+        this("000000000000000", "Неизвестно", "Неизвестно", 1, 500);
+    }
+
+    public Smartphone(String brand, String model) {
+        this("000000000000000", brand, model, 1, 500);
+    }
+
+    public Smartphone(String brand, String model, double price, int batteryCapacity) {
+        this("000000000000000", brand, model, price, batteryCapacity);
+    }
+
+    public Smartphone(String imei, String brand, String model, double price, int batteryCapacity) {
+        setImei(imei);
+        setBrand(brand);
+        setModel(model);
+        setPrice(price);
+        setBatteryCapacity(batteryCapacity);
+
+        smartphoneCounter++;
+    }
+
     public String getImei() {
         return imei;
     }
@@ -66,7 +90,52 @@ public class Smartphone {
     public String getDescription() {
         return String.format(
                 "%s %s (IMEI: %s) — %.2f руб., батарея %d мА·ч",
-                brand, model, imei, price, batteryCapacity
+                brand,
+                model,
+                imei,
+                price,
+                batteryCapacity
+        );
+    }
+
+    public String getDescription(boolean shortFormat) {
+        if (shortFormat) {
+            return brand + " " + model + " — " + price + " руб.";
+        }
+
+        return getDescription();
+    }
+
+    public String getDescription(boolean shortFormat, boolean showBattery) {
+        if (shortFormat && showBattery) {
+            return brand + " " + model
+                    + ", батарея " + batteryCapacity + " мА·ч";
+        }
+
+        if (shortFormat) {
+            return brand + " " + model;
+        }
+
+        return getDescription();
+    }
+
+    public static int getCounter() {
+        return smartphoneCounter;
+    }
+
+    public static Smartphone createSmartphone(
+            String imei,
+            String brand,
+            String model,
+            double price,
+            int batteryCapacity
+    ) {
+        return new Smartphone(
+                imei,
+                brand,
+                model,
+                price,
+                batteryCapacity
         );
     }
 }
